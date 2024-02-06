@@ -1,12 +1,8 @@
 const express = require("express");
 const app = express()
 const cors = require('cors')
-import mainRouter from './routes/index'
-import User from './db/data'
+const mainRouter = require('./routes/index')
 
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const JWT_Key = require('./config')
 
 // middlewRES
 app.use(cors())
