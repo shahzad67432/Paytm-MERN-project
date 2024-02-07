@@ -1,11 +1,13 @@
 const express = require('express')
 
+
 const {User} = require('../db/data.js')
 const z = require("zod")
 const userRouter = express.Router()
 const { JWT_Key } =require('../config')
 const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken")
+const {authMiddleware} = require('../middlewares/AuthMiddleware.js')
 
 userRouter.use(express.json())
 
@@ -69,6 +71,28 @@ userRouter.post('/signin', async function(req, res){
     const token = jwt.sign({username:username}, "JWT_key")
     res.json({
         token,
+    })
+})
+
+const updateUser = z.object({
+    password:z.string().optional(),
+    firstName:z.string().optional(),
+    lastName:z.string().optional(),
+})
+
+userRouter.put('/update', authMiddleware, async (req, res)=>{
+    const {success} = updateUser.safeParse(req.body)
+    if(!success){
+        res.status(411).json({
+            message: "Error while updating information"
+        })
+    }
+
+    await   User.updateOne(req.body, {
+        _id: req.userId,
+    })
+    res.json({
+        message: "Updated successfully"
     })
 })
 
