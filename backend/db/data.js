@@ -16,10 +16,24 @@ const userSchema = new mongoose.Schema({
         type:String,
     },
 })
+const paymentSchema = new mongoose.Schema({
+    balance:{
+        type:Number,
+        required:true
+    },
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required:true
+    }
 
+})
 
+const balance = mongoose.model('balance', paymentSchema)
 const User = mongoose.model('User', userSchema)
 
+
 module.exports = {
-    User
+    User,
+    balance
 }
