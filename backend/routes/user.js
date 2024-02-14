@@ -2,6 +2,7 @@ const express = require('express')
 
 
 const {User} = require('../db/data.js')
+const {balance} = require('../db/data.js')
 const z = require("zod")
 const userRouter = express.Router()
 const { JWT_Key } =require('../config')
@@ -40,8 +41,15 @@ userRouter.post('/signup', async (req, res)=>{
         firstName:firstName,
         lastName:lastName,
     })
-    const User_id = user._id
-    const token = jwt.sign({User_id}, JWT_Key)
+
+    const userId = user._id
+
+    const balance = balance.create({
+        userId,
+        balance: 1 + Math.random() * 10000,
+    })
+
+    const token = jwt.sign({userId}, JWT_Key)
     res.status(200).json(
         {  
             msg:"user created successfully", 
@@ -96,10 +104,10 @@ userRouter.put('/update', authMiddleware, async (req, res)=>{
     })
 })
 userRouter.get('/bulk', async (req, res)=>{
-    const filter = req.query.filter || ""
+    const filter = req.query.filter || "" // the empty "" means that if user not inputs anything gives them the all users.
     const users = await User.find({
         $or: [
-            {'lastName':{"$regex":filter}},
+            {'lastName':{"$regex":filter}},     // will check that if even user input 'sha' part of the name shahzad it will search and givees back shahzad.
             {'firstName':{"$regex":filter}},
             {'username':{"$regex":filter}}
 
