@@ -1,11 +1,11 @@
 const express = require('express');
 const { authMiddleware } = require('../middlewares/AuthMiddleware');
-const {User, Ammount} = require('../db/data')
+const {User, balance} = require('../db/data')
 const accountRouter = express.Router()
 
 
-accountRouter.get('/userBalance', authMiddleware, (req, res)=>{
-    const userId = balance.findOne({userId: req.userId})
+accountRouter.get('/userBalance', authMiddleware, async (req, res)=>{
+    const userId = await balance.findOne({userId: req.userId})
     res.json({
         balance:userId.balance
     })
