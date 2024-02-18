@@ -1,9 +1,7 @@
-function SendMoney() {
+export function SendMoney() {
     return (  
         <>
             money
         </>
     );
 }
-
-export default SendMoney;
