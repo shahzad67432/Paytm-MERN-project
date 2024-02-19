@@ -16,16 +16,17 @@ const signupBody = z.object({
     username: z.string().email(),
     password: z.string(),
     firstName: z.string(),
-    lastName:  z.string()
+    lastName:  z.string(),
 })
 
 userRouter.post("/signup", async (req, res) => {
-    const { success } = signupBody.safeParse(req.body)
-    if (!success) {
-        return res.status(411).json({
-            message: "Email already taken / Incorrect inputs"
-        })
-    }
+
+    // const { success } = signupBody.safeParse(req.body)
+    // if (!success) {
+    //     return res.status(411).json({
+    //         message: "Email already taken / Incorrect inputs"
+    //     })
+    // }
 
     const existingUser = await User.findOne({
         username: req.body.username
@@ -105,7 +106,8 @@ userRouter.get('/bulk', async (req, res)=>{
         $or: [
             {'lastName':{"$regex":filter}},     // will check that if even user input 'sha' part of the name shahzad it will search and givees back shahzad.
             {'firstName':{"$regex":filter}},
-            {'username':{"$regex":filter}}
+            {'username':{"$regex":filter}},
+            {'_id':{"$regex":filter}},
 
         ]
     })
@@ -113,6 +115,7 @@ userRouter.get('/bulk', async (req, res)=>{
         user: users.map(user =>({
             username: user.username,
             firstName: user.firstName,
+            _id: user._id,
             lastName: user.lastName
         }))
     })
