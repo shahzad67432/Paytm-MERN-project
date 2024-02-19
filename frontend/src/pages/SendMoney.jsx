@@ -1,7 +1,7 @@
 export function SendMoney() {
-    return (  
-        <>
-            money
-        </>
-    );
+  return (
+    <>
+      <SendMoney />
+    </>
+  );
 }
