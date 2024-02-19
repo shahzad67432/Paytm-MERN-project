@@ -1,1 +1,4 @@
-module.exports = {JWT_Key:"123321123"}
+//backend/config.js
+module.exports = {
+	JWT_SECRET: "your-jwt-secret"
+}
