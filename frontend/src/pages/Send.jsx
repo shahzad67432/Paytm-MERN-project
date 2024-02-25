@@ -1,8 +1,11 @@
+import {RecoilRoot} from 'recoil'
 import { SendMoney } from "../components/SendMoney";
 function Send() {
   return (
     <>
-      <SendMoney/>
+      <RecoilRoot>
+        <SendMoney/>
+      </RecoilRoot>
     </>
   );
 }

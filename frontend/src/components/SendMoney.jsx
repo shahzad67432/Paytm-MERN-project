@@ -1,12 +1,13 @@
-import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios'
+import { useRecoilState } from 'recoil';
+import { ammountAtom } from '../store/atoms/Atom';
 
 export const SendMoney = () => {
     const [searchParams] = useSearchParams();
     const id = searchParams.get("id")
     const name = searchParams.get('name')
-    const [ammount, setAmmount] = useState('')
+    const [ammount, setAmmount] = useRecoilState(ammountAtom)
     return <div class="flex justify-center h-screen bg-gray-100">
         <div className="h-full flex flex-col justify-center">
             <div
@@ -42,7 +43,7 @@ export const SendMoney = () => {
                     </div>
                     <button onClick={
                         ()=>{
-                            axios.post('http://localhohst:3000/api/v1/account/transfer'),{
+                            axios.post('http://localhohst:3000/api/v2/account/transfer'),{
                                 to: id,
                                 ammount
                             },{

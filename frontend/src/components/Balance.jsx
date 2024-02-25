@@ -1,4 +1,4 @@
-export const Balance = ({ value }) => {
+export const Balance = ({ value, balance }) => {
     return <div className="flex">
         <div className="font-bold text-lg">
             Your balance
