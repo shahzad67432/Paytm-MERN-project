@@ -42,13 +42,13 @@ export const SendMoney = () => {
                     />
                     </div>
                     <button onClick={
-                        ()=>{
-                            axios.post('http://localhohst:3000/api/v2/account/transfer'),{
+                        async ()=>{
+                            await axios.post('http://localhohst:3000/api/v1/account/transfer'),{
                                 to: id,
                                 ammount
                             },{
                                 headers:{
-                                    Authorization: "Bearer" + localStorage.getItem("token")
+                                    'Authorization': `Bearer + ${localStorage.getItem("token")}`
                                 }
                             }
                         }
