@@ -1,13 +1,13 @@
 import { useSearchParams } from 'react-router-dom';
-import axios from 'axios'
-import { useRecoilState } from 'recoil';
-import { ammountAtom } from '../store/atoms/Atom';
+import axios from "axios";
+import { useState } from 'react';
 
 export const SendMoney = () => {
     const [searchParams] = useSearchParams();
-    const id = searchParams.get("id")
-    const name = searchParams.get('name')
-    const [ammount, setAmmount] = useRecoilState(ammountAtom)
+    const id = searchParams.get("id");
+    const name = searchParams.get("name");
+    const [amount, setAmount] = useState(0);
+
     return <div class="flex justify-center h-screen bg-gray-100">
         <div className="h-full flex flex-col justify-center">
             <div
@@ -32,8 +32,8 @@ export const SendMoney = () => {
                         Amount (in Rs)
                     </label>
                     <input
-                        onChange={(e)=>{
-                            setAmmount(e.target.value)
+                        onChange={(e) => {
+                            setAmount(e.target.value);
                         }}
                         type="number"
                         class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
@@ -41,18 +41,16 @@ export const SendMoney = () => {
                         placeholder="Enter amount"
                     />
                     </div>
-                    <button onClick={
-                        async ()=>{
-                            await axios.post('http://localhohst:3000/api/v1/account/transfer'),{
-                                to: id,
-                                ammount
-                            },{
-                                headers:{
-                                    'Authorization': `Bearer + ${localStorage.getItem("token")}`
-                                }
+                    <button onClick={() => {
+                        axios.post("http://localhost:3000/api/v1/account/transfer", {
+                            to: id,
+                            amount
+                        }, {
+                            headers: {
+                                Authorization: "Bearer " + localStorage.getItem("token")
                             }
-                        }
-                    } class="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white">
+                        })
+                    }} class="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white">
                         Initiate Transfer
                     </button>
                 </div>
